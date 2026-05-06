@@ -357,13 +357,35 @@ to{opacity:1;transform:translateY(0)}
 <div class="container">
 
 <h2 id="about" class="section-title">About</h2>
+
 <div class="card">
-<p><strong>Lindokuhle Mgoduka</strong></p>
-<p>I am a Top Advanced Diploma Student with a strong academic record and a deep understanding of programming fundamentals. I have worked as an SI Leader, Residence Tutor, and Peer-to-Peer Tutor, helping many first-year students navigate challenging modules like ONT1030/SDS1010.</p>
-<br>
-<p>My teaching approach focuses on simplifying complex concepts, using real-life examples, and making sure students truly understand—not just memorize. I believe every student can succeed in programming with the right guidance and support.</p>
-<br>
-<p>Through this platform, which is part of Small Empire Innovations (SEI), my goal is to create a supportive learning environment where students feel confident, capable, and prepared to pass and grow in their IT journey.</p>
+  <p><strong>Lindokuhle Mgoduka</strong></p>
+
+  <p>
+    I am a two-time Cum Laude graduate with a strong academic record, including a 90%+ pass mark in Software Development I. 
+    I have a solid understanding of programming fundamentals and a passion for helping other students succeed.
+  </p>
+
+  <br>
+
+  <p>
+    Over the past few years, I have worked as an SI Leader, Residence Tutor, and Peer-to-Peer Tutor, supporting many first-year students 
+    in challenging modules such as ONT1030/SDS1010. I understand the difficulties students face because I have helped many of them overcome the same struggles.
+  </p>
+
+  <br>
+
+  <p>
+    My teaching approach focuses on simplifying complex concepts, using real-life examples, and guiding students step by step until they truly understand — not just memorize. 
+    I believe every student can succeed in programming when given the right support and explanation.
+  </p>
+
+  <br>
+
+  <p>
+    Through this platform, part of <strong>Small Empire Innovations (SEI)</strong>, my goal is to create a supportive and student-friendly learning environment where you can build confidence, 
+    improve your skills, and successfully pass your IT modules.
+  </p>
 </div>
 
 <h2 id="services" class="section-title">Services</h2>
@@ -406,11 +428,13 @@ const typingElement = document.getElementById("typing-text");
 let i = 0;
 let isDeleting = false;
 
-const typingSpeed = 400;     // slower typing
-const deletingSpeed = 300;   // slower deleting
-const pauseTime = 1500;      // pause at full text
+const typingSpeed = 400;
+const deletingSpeed = 300;
+const pauseTime = 1500;
 
+// -------------------- TYPEWRITER --------------------
 function typeEffect() {
+    if (!typingElement) return;
 
     if (!isDeleting) {
         typingElement.textContent = text.substring(0, i + 1);
@@ -423,8 +447,7 @@ function typeEffect() {
         }
 
         setTimeout(typeEffect, typingSpeed);
-    } 
-    else {
+    } else {
         typingElement.textContent = text.substring(0, i - 1);
         i--;
 
@@ -438,55 +461,71 @@ function typeEffect() {
 
 typeEffect();
 
-// image slider
+
+// -------------------- IMAGE SLIDER --------------------
 const images = ["me.jpg","Class.png","PC.jpg","OneOnOne.jpg","Board.jpg","award.JPG"];
 let index = 0;
+
 setInterval(() => {
+    const slider = document.getElementById('slider');
+    if (!slider) return;
+
     index = (index + 1) % images.length;
-    document.getElementById('slider').src = images[index];
+    slider.src = images[index];
 }, 5000);
 
-function revealCards(){
+
+// -------------------- REVEAL CARDS --------------------
+function revealCards() {
     const cards = document.querySelectorAll('.card');
-    
+
     cards.forEach(card => {
         const top = card.getBoundingClientRect().top;
 
-        if(top < window.innerHeight - 50){
+        if (top < window.innerHeight - 50) {
             card.classList.add('show');
         }
     });
 }
 
-// run on scroll
 window.addEventListener('scroll', revealCards);
-
-// IMPORTANT: run once on page load (this is what you're missing)
 window.addEventListener('load', revealCards);
 
-// mobile menu toggle
+
+// -------------------- MOBILE MENU (CLEAN VERSION) --------------------
 const toggle = document.getElementById("menu-toggle");
 const nav = document.getElementById("nav-links");
 const overlay = document.getElementById("nav-overlay");
 
-toggle.addEventListener("click", () => {
-    nav.classList.toggle("active");
-    overlay.classList.toggle("active");
-});
-
-// close when clicking outside
-overlay.addEventListener("click", () => {
+function closeMenu() {
     nav.classList.remove("active");
     overlay.classList.remove("active");
-});
+}
 
-// close menu when clicking a nav link
-document.querySelectorAll(".nav-links a").forEach(link => {
-    link.addEventListener("click", () => {
-        nav.classList.remove("active");
-        overlay.classList.remove("active");
+if (toggle && nav && overlay) {
+
+    toggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        nav.classList.toggle("active");
+        overlay.classList.toggle("active");
     });
-});
+
+    overlay.addEventListener("click", closeMenu);
+
+    document.querySelectorAll(".nav-links a").forEach(link => {
+        link.addEventListener("click", closeMenu);
+    });
+
+    // click anywhere outside closes menu
+    document.addEventListener("click", (e) => {
+        const isMenu = nav.contains(e.target);
+        const isToggle = toggle.contains(e.target);
+
+        if (!isMenu && !isToggle) {
+            closeMenu();
+        }
+    });
+}
 </script>
 
 </body>

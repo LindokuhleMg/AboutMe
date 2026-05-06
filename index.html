@@ -194,33 +194,54 @@ to{opacity:1;transform:translateY(0)}
 
 /* MOBILE */
 @media(max-width:800px){
-.hero{grid-template-columns:1fr;text-align:center}
-.hero-images{grid-template-columns:1fr}
-.navbar{
-        flex-direction:row;
-        justify-content:space-between;
-        align-items:center;
-    }
 
-    .hero-images{
-    min-height:350px;
+.hero{
+    grid-template-columns:1fr;
+    text-align:center;
+    gap:30px; /* adds breathing space */
 }
 
+.hero-images{
+    grid-template-columns:1fr;
+}
+
+/* NAV stays clean */
+.navbar{
+    flex-direction:row;
+    justify-content:space-between;
+    align-items:center;
+}
+
+/* IMAGE BOX - RESPONSIVE HEIGHT */
 .image-box{
     width:100%;
-    height:350px;      /* fixed space reserved */
+    aspect-ratio: 4 / 3; /* 🔥 responsive instead of fixed height */
+    max-height: 400px;
+
     overflow:hidden;
-    border-radius:10px;
-    position:relative;
+    border-radius:12px;
+    background:rgba(100,255,218,0.05);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
-/* IMPORTANT: stabilizes all images */
+/* IMAGE */
 .image-box img{
     width:100%;
     height:100%;
-    object-fit:cover;
-    display:block;     /* removes inline image spacing bug */
-}}
+    object-fit:contain; /* full image always visible */
+    display:block;
+
+    transition:0.4s ease;
+}
+
+.image-box:hover img{
+    transform:scale(1.03);
+}
+
+}
 </style>
 </head>
 
@@ -250,7 +271,7 @@ to{opacity:1;transform:translateY(0)}
 
 <div class="hero-images">
     <div class="image-box">
-        <img id="slider" src="award.JPG">
+        <img id="slider" src="award.JPG" loading="lazy">
     </div>
 </div>
 

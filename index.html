@@ -193,8 +193,20 @@ to{opacity:1;transform:translateY(0)}
     justify-content:center;
 }
 
+.logo{
+    font-size:14px;
+    max-width:75%;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
 .hero-images{
     grid-template-columns:1fr;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
 /* NAV */
@@ -278,17 +290,8 @@ to{opacity:1;transform:translateY(0)}
 
 /* IMAGE BOX */
 .image-box{
-    width:100%;
-    aspect-ratio: 4 / 3;
-    max-height: 400px;
-
-    overflow:hidden;
-    border-radius:12px;
-    background:rgba(100,255,218,0.05);
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    width:min(100%, 350px);
+    margin:auto;
 }
 
 /* IMAGE */

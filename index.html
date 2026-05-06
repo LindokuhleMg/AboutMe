@@ -34,12 +34,17 @@ body{font-family:'Poppins',sans-serif;background:#0a192f;color:#fff;overflow-x:h
     font-weight:700;
     letter-spacing:3px;
     text-shadow:0 0 6px #64ffda, 0 0 18px #64ffda;
+
+    width:32ch;          /* 🔥 fits your full text length */
+    white-space:nowrap;  /* prevents wrapping */
+    overflow:hidden;     /* hides extra while typing */
 }
 
 /* LINKS */
 .nav-links{
     display:flex;
     gap:20px;
+    margin-left:auto;   /* 🔥 pushes links to far right */
 }
 
 .nav-links a{
@@ -71,33 +76,6 @@ body{font-family:'Poppins',sans-serif;background:#0a192f;color:#fff;overflow-x:h
     cursor:pointer;
 }
 
-/* MOBILE */
-@media(max-width:768px){
-
-    .menu-toggle{
-        display:block;
-    }
-
-    .nav-links{
-        position:absolute;
-        top:70px;
-        right:0;
-        background:rgba(2,12,27,0.95);
-        backdrop-filter:blur(10px);
-
-        flex-direction:column;
-        width:200px;
-
-        padding:20px;
-
-        transform:translateX(100%);
-        transition:0.3s ease;
-    }
-
-    .nav-links.active{
-        transform:translateX(0);
-    }
-}
 
 /* HERO */
 .hero::before{
@@ -193,29 +171,102 @@ to{opacity:1;transform:translateY(0)}
 }
 
 /* MOBILE */
+/* MOBILE */
 @media(max-width:800px){
 
 .hero{
     grid-template-columns:1fr;
     text-align:center;
-    gap:30px; /* adds breathing space */
+    gap:30px;
 }
 
 .hero-images{
     grid-template-columns:1fr;
 }
 
-/* NAV stays clean */
+/* NAV */
 .navbar{
     flex-direction:row;
     justify-content:space-between;
     align-items:center;
 }
 
-/* IMAGE BOX - RESPONSIVE HEIGHT */
+/* HAMBURGER */
+.menu-toggle{
+    display:block;
+    font-size:26px;
+    padding:6px 10px;
+    border-radius:8px;
+    background:rgba(100,255,218,0.08);
+}
+
+/* BACKGROUND OVERLAY */
+.nav-overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(2,12,27,0.6);
+    backdrop-filter:blur(8px);
+    opacity:0;
+    pointer-events:none;
+    transition:0.3s;
+}
+
+/* ACTIVE OVERLAY */
+.nav-overlay.active{
+    opacity:1;
+    pointer-events:auto;
+}
+
+/* NAV DROPDOWN */
+.nav-links{
+    position:absolute;
+    top:70px;
+    right:15px;
+
+    background:rgba(10,25,47,0.55);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+
+    border:1px solid rgba(100,255,218,0.2);
+    border-radius:16px;
+
+    flex-direction:column;
+    width:220px;
+
+    padding:20px;
+
+    transform:translateY(-10px) scale(0.95);
+    opacity:0;
+
+    box-shadow:0 20px 40px rgba(0,0,0,0.4);
+
+    transition:all 0.3s ease;
+}
+
+/* ACTIVE MENU */
+.nav-links.active{
+    transform:translateY(0) scale(1);
+    opacity:1;
+}
+
+/* LINKS STYLE */
+.nav-links a{
+    padding:10px 0;
+    font-size:16px;
+    border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.nav-links a:last-child{
+    border-bottom:none;
+}
+
+/* IMAGE BOX */
 .image-box{
     width:100%;
-    aspect-ratio: 4 / 3; /* 🔥 responsive instead of fixed height */
+    aspect-ratio: 4 / 3;
     max-height: 400px;
 
     overflow:hidden;
@@ -231,9 +282,8 @@ to{opacity:1;transform:translateY(0)}
 .image-box img{
     width:100%;
     height:100%;
-    object-fit:contain; /* full image always visible */
+    object-fit:contain;
     display:block;
-
     transition:0.4s ease;
 }
 
@@ -260,6 +310,9 @@ to{opacity:1;transform:translateY(0)}
     <a href="#pricing">Pricing</a>
     <a href="#contact">Contact</a>
   </div>
+
+   <!-- ✅ OVERLAY INSIDE NAV -->
+  <div class="nav-overlay" id="nav-overlay"></div>
 </nav>
 
 <section class="hero">
@@ -366,7 +419,7 @@ function typeEffect() {
 typeEffect();
 
 // image slider
-const images = ["me.jpg","Class.png","PC.jpg","OneOnOne.jpg","Board.jpg","award.jpg"];
+const images = ["me.jpg","Class.png","PC.jpg","OneOnOne.jpg","Board.jpg","award.JPG"];
 let index = 0;
 setInterval(() => {
     index = (index + 1) % images.length;
@@ -390,6 +443,22 @@ window.addEventListener('scroll', revealCards);
 
 // IMPORTANT: run once on page load (this is what you're missing)
 window.addEventListener('load', revealCards);
+
+// mobile menu toggle
+const toggle = document.getElementById("menu-toggle");
+const nav = document.getElementById("nav-links");
+const overlay = document.getElementById("nav-overlay");
+
+toggle.addEventListener("click", () => {
+    nav.classList.toggle("active");
+    overlay.classList.toggle("active");
+});
+
+// close when clicking outside
+overlay.addEventListener("click", () => {
+    nav.classList.remove("active");
+    overlay.classList.remove("active");
+});
 </script>
 
 </body>
